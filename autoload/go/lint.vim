@@ -2,6 +2,10 @@ if !exists("g:go_metalinter_command")
   let g:go_metalinter_command = ""
 endif
 
+if !exists("g:go_metalinter_args")
+	let g:go_metalinter_args = []
+endif
+
 if !exists("g:go_metalinter_autosave_enabled")
   let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 endif
@@ -62,6 +66,10 @@ function! go#lint#Gometa(autosave, ...) abort
     " include only messages for the active buffer
     let cmd += ["--include='^" . expand('%:p') . ".*$'"]
   endif
+
+  for arg in g:go_metalinter_args
+	  let cmd += [arg]
+  endfor
 
 
   let meta_command = join(cmd, " ")
