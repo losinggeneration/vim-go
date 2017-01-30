@@ -6,6 +6,11 @@ if !exists("g:go_metalinter_args")
 	let g:go_metalinter_args = []
 endif
 
+if !exists("g:go_metalinter_autosave_args")
+	let g:go_metalinter_autosave_args = []
+endif
+
+
 if !exists("g:go_metalinter_autosave_enabled")
   let g:go_metalinter_autosave_enabled = ['vet', 'golint']
 endif
@@ -67,10 +72,11 @@ function! go#lint#Gometa(autosave, ...) abort
     let cmd += ["--include='^" . expand('%:p') . ".*$'"]
   endif
 
-  for arg in g:go_metalinter_args
+
+  let args =  a:autosave ? g:go_metalinter_autosave_args : g:go_metalinter_args
+  for arg in args
 	  let cmd += [arg]
   endfor
-
 
   let meta_command = join(cmd, " ")
 
